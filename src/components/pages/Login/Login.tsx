@@ -45,7 +45,7 @@ const Login = () => {
     try {
       const result = await login(data);
       setLocalStorage("auth", result.token);
-      console.log("Login successful:", result);
+      // console.log("Login successful:", result);
       return navigate("/orders");
     } catch (error) {
       console.error("Login failed:", error);
