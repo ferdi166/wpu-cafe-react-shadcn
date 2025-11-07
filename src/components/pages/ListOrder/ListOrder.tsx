@@ -39,6 +39,7 @@ const ListOrder = () => {
       }),
   });
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   if (isLoading) {
     return (
@@ -107,8 +108,6 @@ const ListOrder = () => {
     setSearchQuery(search);
   };
 
-  const queryClient = useQueryClient();
-
   const handleCompleteOrder = async (id: string) => {
     await updateOrder(id, { status: "COMPLETED" }).then(() => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
@@ -164,7 +163,7 @@ const ListOrder = () => {
                       <Button variant="secondary">Detail</Button>
                     </Link>
                     {order.status === "PROCESSING" && (
-                      <Button onClick={() => handleCompleteOrder}>
+                      <Button onClick={() => handleCompleteOrder(order.id)}>
                         Completed
                       </Button>
                     )}

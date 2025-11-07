@@ -23,6 +23,7 @@ const CreateOrder = () => {
     queryFn: () => getMenus(searchParams.get("category") as string),
   });
   const [carts, setCarts] = useState<ICart[]>([]);
+  const [tableNumber, setTableNumber] = useState("");
   const navigate = useNavigate();
 
   //   console.log("data:", data);
@@ -61,7 +62,7 @@ const CreateOrder = () => {
     const form = event.target as HTMLFormElement;
     const payload = {
       customerName: form.customerName.value,
-      tableNumber: form.tableNumber.value,
+      tableNumber: Number(tableNumber),
       cart: carts.map((item: ICart) => ({
         menuItemId: item.menuItemId,
         quantity: item.quantity,
@@ -124,7 +125,7 @@ const CreateOrder = () => {
       </section>
 
       {/* Order Form Section */}
-      <form>
+      <form onSubmit={handleOrder}>
         <div className="w-96 border rounded-lg p-6">
           <h2 className="text-2xl font-bold mb-4">Customer Information</h2>
           <div className="mb-4">
@@ -134,11 +135,16 @@ const CreateOrder = () => {
             <Input
               type="text"
               id="name"
+              name="customerName"
               className="border rounded-lg w-full p-2"
             />
           </div>
           <div className="mb-4">
-            <Select name="tableNumber" required>
+            <Select
+              name="tableNumber"
+              value={tableNumber}
+              onValueChange={setTableNumber}
+              required>
               <SelectTrigger>
                 <SelectValue placeholder="Table Number" />
               </SelectTrigger>
@@ -165,9 +171,7 @@ const CreateOrder = () => {
             <Link to={"/orders"}>
               <Button variant="secondary">Cancel</Button>
             </Link>
-            <Button type="submit" onClick={handleOrder}>
-              Submit Order
-            </Button>
+            <Button type="submit">Submit Order</Button>
           </div>
         </div>
 
