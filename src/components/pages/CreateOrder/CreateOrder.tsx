@@ -138,18 +138,6 @@ const CreateOrder = () => {
             />
           </div>
           <div className="mb-4">
-            <Label
-              htmlFor="tableNumber"
-              className="block text-sm font-medium mb-1">
-              Table Number
-            </Label>
-            <Input
-              type="number"
-              id="tableNumber"
-              className="border rounded-lg w-full p-2"
-            />
-          </div>
-          <div className="mb-4">
             <Select name="tableNumber" required>
               <SelectTrigger>
                 <SelectValue placeholder="Table Number" />
