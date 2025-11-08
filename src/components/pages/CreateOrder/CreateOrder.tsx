@@ -1,9 +1,7 @@
-import { getMenus } from "@/services/menu.service";
-import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { filters, tables } from "./CreateOrder.constants";
 import { Button } from "@/components/ui/button";
-import type { ICart, IMenu } from "@/types/order";
+import type { ICart } from "@/types/order";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import {

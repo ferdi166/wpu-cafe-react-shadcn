@@ -2,7 +2,6 @@ import Hero from "@/components/Hero/Hero";
 import ListMenu from "@/components/ListMenu/ListMenu";
 import Navbar from "@/components/Navbar";
 import { useMenusQuery } from "@/hooks/useMenusQuery";
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { filters } from "../CreateOrder/CreateOrder.constants";
 
