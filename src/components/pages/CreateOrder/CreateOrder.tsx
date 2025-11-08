@@ -15,13 +15,12 @@ import {
 } from "@/components/ui/select";
 import { useState, type FormEvent } from "react";
 import { createOrder } from "@/services/order.service";
+import ListMenu from "@/components/ListMenu/ListMenu";
+import { useMenusQuery } from "@/hooks/useMenusQuery";
 
 const CreateOrder = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data } = useQuery({
-    queryKey: ["menus", searchParams.get("category")],
-    queryFn: () => getMenus(searchParams.get("category") as string),
-  });
+  const { data } = useMenusQuery(searchParams.get("category") || "");
   const [carts, setCarts] = useState<ICart[]>([]);
   const [tableNumber, setTableNumber] = useState("");
   const navigate = useNavigate();
@@ -76,53 +75,13 @@ const CreateOrder = () => {
   return (
     <main className="flex gap-8 p-8">
       {/* Menu Section */}
-      <section className="flex-1">
-        <h2 className="text-2xl font-bold mb-4">Explore Our Best Menu</h2>
-        <div className="mb-4 flex gap-2">
-          {/* Category Filters */}
-          {filters.map((filter) => (
-            <Button
-              variant={
-                (!searchParams.get("category") && filter === "All") ||
-                filter === searchParams.get("category")
-                  ? "default"
-                  : "secondary"
-              }
-              key={filter}
-              onClick={() =>
-                setSearchParams(filter === "All" ? {} : { category: filter })
-              }>
-              {filter}
-            </Button>
-          ))}
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {/* Menu Items */}
-          {data?.data?.map((item: IMenu) => (
-            <div key={item.id} className="border rounded-lg p-4">
-              <img
-                src={item.image_url}
-                alt={item.name}
-                className="h-[200px] w-full object-cover rounded"
-              />
-              <div className="flex justify-between items-center px-2">
-                <h3 className="text-xl font-semibold mt-2">{item.name}</h3>
-                <p className="text-primary text-xl font-bold mt-1">
-                  ${item.price}
-                </p>
-              </div>
-              <div className="mt-4 flex justify-end">
-                <Button
-                  onClick={() =>
-                    handleAddToCart("increment", item.id, item.name)
-                  }>
-                  Add to Cart
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <ListMenu
+        data={data?.data}
+        filters={filters}
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        handleAddToCart={handleAddToCart}
+      />
 
       {/* Order Form Section */}
       <form onSubmit={handleOrder}>
