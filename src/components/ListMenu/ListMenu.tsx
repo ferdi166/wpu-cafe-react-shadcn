@@ -48,15 +48,19 @@ const ListMenu = ({
           </Button>
         ))}
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Menu Items */}
         {isLoading
           ? [...Array(6)].map((_, i) => (
               <div key={i} className="border rounded-lg p-4">
                 <Skeleton className="h-[200px] w-full mb-4" />
-                <Skeleton className="h-6 w-2/3 mb-2" />
-                <Skeleton className="h-5 w-1/3 mb-4" />
-                <Skeleton className="h-10 w-full" />
+                <div className="flex justify-between">
+                  <Skeleton className="h-7 w-1/3 mb-2" />
+                  <Skeleton className="h-6 w-1/5 mb-4" />
+                </div>
+                <div className="flex justify-end">
+                  <Skeleton className="h-8 w-24" />
+                </div>
               </div>
             ))
           : data?.map((item: IMenu) => (
