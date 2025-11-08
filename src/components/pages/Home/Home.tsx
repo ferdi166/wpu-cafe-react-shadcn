@@ -8,7 +8,7 @@ import { filters } from "../CreateOrder/CreateOrder.constants";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data } = useMenusQuery(searchParams.get("category") || "");
+  const { data, isLoading } = useMenusQuery(searchParams.get("category") || "");
   return (
     <>
       <Navbar />
@@ -27,6 +27,7 @@ const Home = () => {
         className="p-8"
         titleClassName="text-center text-4xl mb-8"
         filtersClassName="justify-center mb-10"
+        isLoading={isLoading}
       />
     </>
   );

@@ -1,5 +1,6 @@
 import type { IMenu } from "@/types/order";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 
 interface ListMenuProps {
   data: IMenu[];
@@ -10,6 +11,7 @@ interface ListMenuProps {
   className?: string;
   titleClassName?: string;
   filtersClassName?: string;
+  isLoading?: boolean;
 }
 
 const ListMenu = ({
@@ -21,6 +23,7 @@ const ListMenu = ({
   className,
   titleClassName,
   filtersClassName,
+  isLoading,
 }: ListMenuProps) => {
   return (
     <section className={className ?? "flex-1"}>
@@ -47,30 +50,39 @@ const ListMenu = ({
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
         {/* Menu Items */}
-        {data?.map((item: IMenu) => (
-          <div key={item.id} className="border rounded-lg p-4">
-            <img
-              src={item.image_url}
-              alt={item.name}
-              className="h-[200px] w-full object-cover rounded"
-            />
-            <div className="flex justify-between items-center px-2">
-              <h3 className="text-xl font-semibold mt-2">{item.name}</h3>
-              <p className="text-primary text-xl font-bold mt-1">
-                ${item.price}
-              </p>
-            </div>
-            <div className="mt-4 flex justify-end">
-              <Button
-                onClick={() =>
-                  handleAddToCart?.("increment", item.id, item.name)
-                }
-                disabled={!handleAddToCart}>
-                Add to Cart
-              </Button>
-            </div>
-          </div>
-        ))}
+        {isLoading
+          ? [...Array(6)].map((_, i) => (
+              <div key={i} className="border rounded-lg p-4">
+                <Skeleton className="h-[200px] w-full mb-4" />
+                <Skeleton className="h-6 w-2/3 mb-2" />
+                <Skeleton className="h-5 w-1/3 mb-4" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            ))
+          : data?.map((item: IMenu) => (
+              <div key={item.id} className="border rounded-lg p-4">
+                <img
+                  src={item.image_url}
+                  alt={item.name}
+                  className="h-[200px] w-full object-cover rounded"
+                />
+                <div className="flex justify-between items-center px-2">
+                  <h3 className="text-xl font-semibold mt-2">{item.name}</h3>
+                  <p className="text-primary text-xl font-bold mt-1">
+                    ${item.price}
+                  </p>
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <Button
+                    onClick={() =>
+                      handleAddToCart?.("increment", item.id, item.name)
+                    }
+                    disabled={!handleAddToCart}>
+                    Add to Cart
+                  </Button>
+                </div>
+              </div>
+            ))}
       </div>
     </section>
   );

@@ -20,7 +20,7 @@ import { useMenusQuery } from "@/hooks/useMenusQuery";
 
 const CreateOrder = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data } = useMenusQuery(searchParams.get("category") || "");
+  const { data, isLoading } = useMenusQuery(searchParams.get("category") || "");
   const [carts, setCarts] = useState<ICart[]>([]);
   const [tableNumber, setTableNumber] = useState("");
   const navigate = useNavigate();
@@ -81,6 +81,7 @@ const CreateOrder = () => {
         searchParams={searchParams}
         setSearchParams={setSearchParams}
         handleAddToCart={handleAddToCart}
+        isLoading={isLoading}
       />
 
       {/* Order Form Section */}
