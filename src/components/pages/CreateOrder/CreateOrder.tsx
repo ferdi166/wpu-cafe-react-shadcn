@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { useState, type FormEvent } from "react";
 import { createOrder } from "@/services/order.service";
-import ListMenu from "@/components/ListMenu/ListMenu";
+import ListMenu from "@/components/ui/ListMenu/ListMenu";
 import { useMenusQuery } from "@/hooks/useMenusQuery";
 
 const CreateOrder = () => {

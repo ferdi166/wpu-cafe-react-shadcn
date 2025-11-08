@@ -1,9 +1,9 @@
-import Hero from "@/components/Hero/Hero";
-import ListMenu from "@/components/ListMenu/ListMenu";
-import Navbar from "@/components/Navbar";
+import ListMenu from "@/components/ui/ListMenu/ListMenu";
 import { useMenusQuery } from "@/hooks/useMenusQuery";
 import { useSearchParams } from "react-router-dom";
 import { filters } from "../CreateOrder/CreateOrder.constants";
+import Navbar from "@/components/ui/Navbar";
+import Hero from "@/components/ui/Hero";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();

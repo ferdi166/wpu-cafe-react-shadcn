@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
+import { Button } from "../button";
 
 const Hero = () => (
-  <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 place-items-center gap-12 py-16 px-6">
+  <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 place-items-center gap-12 py-24 px-6">
     {/* Left: Text */}
     <div className="flex flex-col md:items-start self-center order-2 md:order-1">
       <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">

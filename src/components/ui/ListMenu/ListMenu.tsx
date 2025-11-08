@@ -1,6 +1,6 @@
 import type { IMenu } from "@/types/order";
-import { Button } from "../ui/button";
-import { Skeleton } from "../ui/skeleton";
+import { Button } from "../button";
+import { Skeleton } from "../skeleton";
 
 interface ListMenuProps {
   data: IMenu[];
