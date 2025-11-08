@@ -21,7 +21,7 @@ const Home = () => {
   const { data: menuData, isLoading: isMenuLoading } = useMenusQuery(
     searchParams.get("category") || ""
   );
-  const { data: reviewsData, isLoading: isReviewsLoading } = useQuery({
+  const { data: reviewsData } = useQuery({
     queryKey: ["reviews"],
     queryFn: getReviews,
   });
