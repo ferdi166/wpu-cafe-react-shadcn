@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 
 const Hero = () => (
-  <div className="max-w-6xl w-full mx-auto flex flex-col-reverse md:flex-row items-center justify-center gap-12 py-16 px-6">
+  <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 place-items-center gap-12 py-16 px-6">
     {/* Left: Text */}
-    <div className="md:w-1/2 flex flex-col md:items-start">
+    <div className="flex flex-col md:items-start self-center order-2 md:order-1">
       <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
         Hungry? You're
         <br />
@@ -15,13 +15,13 @@ const Hero = () => (
         us. Order food easily, quickly, and safely from your chosen restaurant!
       </p>
       <Link to="/login">
-        <Button size={"lg"} className="w-full">
+        <Button size="lg" className="w-full md:w-auto">
           Let's Order
         </Button>
       </Link>
     </div>
     {/* Right: Image */}
-    <div className="md:w-1/2 flex justify-center">
+    <div className="flex justify-center self-center order-1 md:order-2">
       <img
         src="Cooking-cuate.png"
         alt="Food Delivery"

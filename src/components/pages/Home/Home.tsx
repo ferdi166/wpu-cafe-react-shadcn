@@ -25,7 +25,7 @@ const Home = () => {
         setSearchParams={setSearchParams}
         className="p-8"
         titleClassName="text-center text-4xl mb-8"
-        filtersClassName="justify-center mb-10"
+        filtersClassName="justify-center mb-10 flex-wrap"
         isLoading={isLoading}
       />
     </>
