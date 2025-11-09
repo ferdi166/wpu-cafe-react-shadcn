@@ -8,7 +8,7 @@ const ReviewCard = ({
 }: IReviews) => {
   return (
     <div className="border rounded-xl p-6 w-full max-w-lg mx-auto">
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex items-start flex-col md:flex-row md:justify-between md:items-center mb-2">
         <div className="flex gap-1 text-yellow-400 text-xl">
           {Array.from({ length: rating }).map((_, i) => (
             <span key={i}>★</span>
@@ -22,13 +22,13 @@ const ReviewCard = ({
           })}
         </span>
       </div>
-      <p className="text-gray-700 mb-6">{comment}</p>
+      <p className="text-gray-700 mb-6 text-balance">{comment}</p>
       <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-lg text-gray-600">
+        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-lg text-gray-600">
           {reviewer_name[0]}
         </div>
         <div>
-          <div className="font-bold text-lg">{reviewer_name}</div>
+          <div className="font-bold text-base md:text-lg">{reviewer_name}</div>
         </div>
       </div>
     </div>
