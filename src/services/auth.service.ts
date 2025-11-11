@@ -8,5 +8,9 @@ export const login = async (payload: ILogin) => {
     body: JSON.stringify(payload),
   });
 
+  if (!result.token) {
+    throw new Error(result.message);
+  }
+
   return result;
 };

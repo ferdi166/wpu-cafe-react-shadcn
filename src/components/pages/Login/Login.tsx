@@ -13,35 +13,23 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Form, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { login } from "@/services/auth.service";
 import { setLocalStorage } from "@/utils/storage";
 import { useNavigate } from "react-router-dom";
-
-const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, {
-      message: "Email is required",
-    })
-    .email("Invalid email address"),
-  password: z.string(),
-});
+import { type LoginForm, loginSchema } from "@/validations/auth-validation";
+import { INITIAL_LOGIN_FORM } from "@/constants/auth-constant";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: INITIAL_LOGIN_FORM,
   });
 
-  const handleLogin = async (data: z.infer<typeof loginSchema>) => {
+  const handleLogin = async (data: LoginForm) => {
     try {
       const result = await login(data);
       setLocalStorage("auth", result.token);
