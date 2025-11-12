@@ -19,6 +19,7 @@ import { setLocalStorage } from "@/utils/storage";
 import { useNavigate } from "react-router-dom";
 import { type LoginForm, loginSchema } from "@/validations/auth-validation";
 import { INITIAL_LOGIN_FORM } from "@/constants/auth-constant";
+import { toast } from "sonner";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,6 +37,7 @@ const Login = () => {
       // console.log("Login successful:", result);
       return navigate("/orders");
     } catch (error) {
+      toast.error("Email atau Password salah");
       console.error("Login failed:", error);
     }
   };

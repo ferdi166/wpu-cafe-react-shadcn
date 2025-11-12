@@ -11,16 +11,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState, type FormEvent } from "react";
+import { useState } from "react";
 import { createOrder } from "@/services/order.service";
 import ListMenu from "@/components/ui/ListMenu/ListMenu";
 import { useMenusQuery } from "@/hooks/useMenusQuery";
+import {
+  orderSchema,
+  type CreateOrderForm,
+} from "@/validations/order-validation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { INITIAL_CREATE_ORDER_FORM } from "@/constants/order-constants";
+import { Form, FormField } from "@/components/ui/form";
 
 const CreateOrder = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { data, isLoading } = useMenusQuery(searchParams.get("category") || "");
   const [carts, setCarts] = useState<ICart[]>([]);
-  const [tableNumber, setTableNumber] = useState("");
+  // const [tableNumber, setTableNumber] = useState("");
   const navigate = useNavigate();
 
   //   console.log("data:", data);
@@ -54,12 +62,14 @@ const CreateOrder = () => {
     }
   };
 
-  const handleOrder = async (event: FormEvent) => {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
+  const form = useForm<CreateOrderForm>({
+    resolver: zodResolver(orderSchema),
+    defaultValues: INITIAL_CREATE_ORDER_FORM,
+  });
+
+  const handleOrder = async (data: CreateOrderForm) => {
     const payload = {
-      customerName: form.customerName.value,
-      tableNumber: Number(tableNumber),
+      ...data,
       cart: carts.map((item: ICart) => ({
         menuItemId: item.menuItemId,
         quantity: item.quantity,
@@ -83,107 +93,128 @@ const CreateOrder = () => {
       />
 
       {/* Order Form Section */}
-      <form onSubmit={handleOrder}>
-        <div className="w-96 border rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-4">Customer Information</h2>
-          <div className="mb-4">
-            <Label htmlFor="name" className="block text-sm font-medium mb-1">
-              Name
-            </Label>
-            <Input
-              type="text"
-              id="name"
-              name="customerName"
-              className="border rounded-lg w-full p-2"
-            />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleOrder)}>
+          <div className="w-96 border rounded-lg p-6">
+            <h2 className="text-2xl font-bold mb-4">Customer Information</h2>
+            <div className="mb-4">
+              <FormField
+                control={form.control}
+                name="customerName"
+                render={({ field: { ...rest } }) => (
+                  <>
+                    <Label
+                      htmlFor="customerName"
+                      className="block text-sm font-medium mb-1">
+                      Name
+                    </Label>
+                    <Input id="customerName" {...rest} />
+                  </>
+                )}
+              />
+            </div>
+            <div className="mb-4">
+              <FormField
+                control={form.control}
+                name="tableNumber"
+                render={({ field }) => (
+                  <>
+                    <Label
+                      htmlFor="tableNumber"
+                      className="block text-sm font-medium mb-1">
+                      Table Number
+                    </Label>
+                    <Select
+                      value={String(field.value)}
+                      onValueChange={(val) => field.onChange(Number(val))}
+                      required>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Table Number" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {tables.map((table) => {
+                          const value =
+                            typeof table === "object" && table !== null
+                              ? (table as { value: string }).value
+                              : String(table);
+                          const label =
+                            typeof table === "object" && table !== null
+                              ? (table as { label: string }).label
+                              : String(table);
+                          return (
+                            <SelectItem
+                              key={String(value)}
+                              value={String(value)}>
+                              {label}
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
+                  </>
+                )}
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              <Link to={"/orders"}>
+                <Button variant="secondary">Cancel</Button>
+              </Link>
+              <Button type="submit">Submit Order</Button>
+            </div>
           </div>
-          <div className="mb-4">
-            <Select
-              name="tableNumber"
-              value={tableNumber}
-              onValueChange={setTableNumber}
-              required>
-              <SelectTrigger>
-                <SelectValue placeholder="Table Number" />
-              </SelectTrigger>
-              <SelectContent>
-                {tables.map((table) => {
-                  const value =
-                    typeof table === "object" && table !== null
-                      ? (table as { value: string }).value
-                      : String(table);
-                  const label =
-                    typeof table === "object" && table !== null
-                      ? (table as { label: string }).label
-                      : String(table);
-                  return (
-                    <SelectItem key={String(value)} value={String(value)}>
-                      {label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex justify-end gap-2">
-            <Link to={"/orders"}>
-              <Button variant="secondary">Cancel</Button>
-            </Link>
-            <Button type="submit">Submit Order</Button>
-          </div>
-        </div>
 
-        <div>
-          <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-        </div>
-        <div>
-          {/* Order summary details will go here */}
-          {carts.length > 0 ? (
-            <div>
-              {carts?.map((item: ICart) => (
-                <div
-                  key={item.menuItemId}
-                  className="flex justify-between py-2 border-b">
-                  <h4>{item.name}</h4>
-                  <div className="flex items-center">
-                    <Button
-                      type="button"
-                      onClick={() =>
-                        handleAddToCart(
-                          "decrement",
-                          `${item.menuItemId}`,
-                          `${item.name}`
-                        )
-                      }
-                      variant="secondary"
-                      size="sm">
-                      -
-                    </Button>
-                    <div className="px-2">{item.quantity}</div>
-                    <Button
-                      type="button"
-                      onClick={() =>
-                        handleAddToCart(
-                          "increment",
-                          `${item.menuItemId}`,
-                          `${item.name}`
-                        )
-                      }
-                      variant="secondary"
-                      size="sm">
-                      +
-                    </Button>
+          <div>
+            <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+          </div>
+          <div>
+            {/* Order summary details will go here */}
+            {carts.length > 0 ? (
+              <div>
+                {carts?.map((item: ICart) => (
+                  <div
+                    key={item.menuItemId}
+                    className="flex justify-between py-2 border-b">
+                    <h4>{item.name}</h4>
+                    <div className="flex items-center">
+                      <Button
+                        type="button"
+                        onClick={() =>
+                          handleAddToCart(
+                            "decrement",
+                            `${item.menuItemId}`,
+                            `${item.name}`
+                          )
+                        }
+                        variant="secondary"
+                        size="sm">
+                        -
+                      </Button>
+                      <div className="px-2">{item.quantity}</div>
+                      <Button
+                        type="button"
+                        onClick={() =>
+                          handleAddToCart(
+                            "increment",
+                            `${item.menuItemId}`,
+                            `${item.name}`
+                          )
+                        }
+                        variant="secondary"
+                        size="sm">
+                        +
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div>
-              <h4>No items in cart</h4>
-            </div>
-          )}
-        </div>
-      </form>
+                ))}
+              </div>
+            ) : (
+              <div>
+                <h4>No items in cart</h4>
+              </div>
+            )}
+          </div>
+        </form>
+      </Form>
     </main>
   );
 };
