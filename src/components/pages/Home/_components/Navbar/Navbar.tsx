@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Button } from "../button";
 
 const Navbar = () => (
   <nav className="w-full flex items-center justify-between px-8 py-4 shadow">

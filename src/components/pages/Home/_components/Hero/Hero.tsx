@@ -1,5 +1,5 @@
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Button } from "../button";
 
 const Hero = () => (
   <div className="max-w-6xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 place-items-center gap-12 py-24 px-6">
