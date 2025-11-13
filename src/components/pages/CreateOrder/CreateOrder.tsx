@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { createOrder } from "@/services/order.service";
-import ListMenu from "@/components/ui/ListMenu/ListMenu";
 import { useMenusQuery } from "@/hooks/useMenusQuery";
 import {
   orderSchema,
@@ -23,6 +22,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { INITIAL_CREATE_ORDER_FORM } from "@/constants/order-constants";
 import { Form, FormField } from "@/components/ui/form";
+import ListMenu from "@/components/features/ListMenu";
 
 const CreateOrder = () => {
   const [searchParams, setSearchParams] = useSearchParams();

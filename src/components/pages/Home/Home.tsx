@@ -1,13 +1,10 @@
-import ListMenu from "@/components/ui/ListMenu/ListMenu";
 import { useMenusQuery } from "@/hooks/useMenusQuery";
 import { useSearchParams } from "react-router-dom";
 import { filters } from "../CreateOrder/CreateOrder.constants";
-import Navbar from "@/components/ui/Navbar";
-import Hero from "@/components/ui/Hero";
 import { useQuery } from "@tanstack/react-query";
 import { getReviews } from "@/services/reviews.service";
 import type { IReviews } from "@/types/reviews";
-import ReviewCard from "@/components/ui/ReviewsCard/ReviewCard";
+import ReviewCard from "@/components/features/ReviewsCard/ReviewCard";
 import {
   Carousel,
   CarouselContent,
@@ -15,6 +12,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import Navbar from "./_components/Navbar";
+import Hero from "./_components/Hero";
+import ListMenu from "@/components/features/ListMenu";
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
